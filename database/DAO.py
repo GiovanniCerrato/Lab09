@@ -24,3 +24,20 @@ class DAO():
         cursor.close()
         conn.close()
         return res
+
+    @staticmethod
+    def getAllVoli():
+        conn = DBConnect.get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        res = []
+
+        query = """SELECT *                        
+                    FROM flights f"""
+
+        cursor.execute(query)
+        for row in cursor:
+            res.append(Volo(**row))
+        cursor.close()
+        conn.close()
+        return res

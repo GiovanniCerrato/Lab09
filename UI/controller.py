@@ -21,12 +21,15 @@ class Controller:
             self._view.create_alert("Inserire un valore numerico!")
             self._view.update_page()
             return
-        res = self._model.buildGraph(distanzaMinima)
+        res = self._model.buildGraph2(distanzaMinima)
 
-        self._view.txt_result.controls.append(ft.Text(f"{res}"))
-        self._view.txt_result.controls.append(ft.Text(f"Elenco di tutti gli archi con relativa distanza:"))
-        for arco in res.edges(data=True):
-            self._view.txt_result.controls.append(ft.Text(f"({arco[0]}, {arco[1]}, Distanza: {arco[2]["weight"]}))"))
+        self._view.txt_result.controls.append(ft.Text(f"Il grafo creato contiene {self._model.getNumNodes()} nodi e {self._model.getNumEdges()} archi"))
+        if self._model.getNumNodes() == 0:
+            pass
+        else:
+            self._view.txt_result.controls.append(ft.Text(f"Elenco di tutti gli archi con relativa distanza:"))
+            for u, v, d in sorted(self._model._graph.edges(data=True), key=lambda x: (x[0], x[1])):
+                self._view.txt_result.controls.append(ft.Text(f"({u} <-> {v});  Distanza: {round(d["weight"],2)}"))
 
         self._view.update_page()
         return
